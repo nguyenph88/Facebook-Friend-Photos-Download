@@ -1,7 +1,3 @@
-from FFPD.FacebookFriendPhotosDownload import FFBD
+from FacebookFriendPhotosDownload.FacebookFriendPhotosDownload import FFBD
 
-bot = FFBD('aaa',
-            'aaa')
-
-# bot = FFBD('123',
-#             '100003150583866')
+bot = FFBD('EAAAAZ_your_facebook_token', '10000_your_friend_id')
