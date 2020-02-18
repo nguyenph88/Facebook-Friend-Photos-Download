@@ -10,7 +10,7 @@ setuptools.setup(
     author_email="nguyenph882@gmail.com",
     description="A simple tool to download all photos (from all albums) from your friend's facebook.",
     long_description=long_description,
-    long_description_content_type="A simple tool to download all photos (from all albums) from your friend's facebook.",
+    long_description_content_type="text/markdown",
     url="https://github.com/nguyenph88/Facebook-Friend-Photos-Download",
     packages=setuptools.find_packages(),
     classifiers=[
