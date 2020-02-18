@@ -12,6 +12,7 @@ class FFBD:
             self.requested_user = self.check_user_info()
             self.requested_user_folder = self.requested_user['metadata']['type'] + ' ' + self.requested_user[
                 'name'] + ' (' + self.requested_user['id'] + ')'
+            self.total_images = 0
             self.main()
 
     def check_token(self):
@@ -55,6 +56,7 @@ class FFBD:
         f = open(img_path, 'wb')
         f.write(requests.get(img_url).content)
         f.close()
+        self.total_images = self.total_images + 1
 
     def main(self):
         print('You are requesting to download photos from: ' + self.requested_user_folder)
@@ -91,7 +93,7 @@ class FFBD:
                     for img_link_dict in album_response['data']:
                         img_url = img_link_dict['source']
                         img_name = img_link_dict['id']
-                        print('\nDownloading Album: ' + + album_name + ' / ' + img_name + '.jpg' + '\nURL: ' + img_url)
+                        print('\nDownloading Album: ' + album_name + ' / ' + img_name + '.jpg' + '\nURL: ' + img_url)
                         self.download_image(album_name, img_link_dict['id'], img_link_dict['source'])
                     album_response = self.session.get(album_response['paging']['next']).json();
 
@@ -102,10 +104,12 @@ class FFBD:
                     for img_link_dict in album_response['data']:
                         img_url = img_link_dict['source']
                         img_name = img_link_dict['id']
-                        print('\nDownloading ' + img_name + '.jpg from Album ' + album_name + '\nURL: ' + img_url)
+                        print('\nDownloading Album: ' + album_name + ' / ' + img_name + '.jpg' + '\nURL: ' + img_url)
                         self.download_image(album_name, img_link_dict['id'], img_link_dict['source'])
                     break
 
+        print('===============================================')
+        print('Images Downloaded: ' + str(self.total_images))
         # there is an additional feeds to download for other types / but never had this branch happened
         # if account_type != 'user' and account_type != 'page':
         #     return None
