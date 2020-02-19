@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Facebook-Friend-Photos-Download",
-    version="0.0.1",
+    version="1.0.0",
     author="Peter Nguyen",
     author_email="nguyenph882@gmail.com",
     description="A simple tool to download all photos (from all albums) from your friend's facebook.",

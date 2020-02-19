@@ -2,18 +2,26 @@ import os, shutil, requests, sys, string
 
 
 class FFBD:
-    def __init__(self, token, user_id):
+    def __init__(self, token):
         self.token = token
-        self.user_id = user_id
         self.download_folder = 'Download'
         self.session = requests.Session()
         # only continue when token is valid
-        if self.check_token():
+        self.isTokenValid = True if self.check_token() else False
+        self.requested_user = None
+        self.requested_user_folder = None
+        self.total_images = 0
+
+    def download(self, user_id):
+        self.user_id = user_id
+        if self.isTokenValid:
             self.requested_user = self.check_user_info()
             self.requested_user_folder = self.requested_user['metadata']['type'] + ' ' + self.requested_user[
                 'name'] + ' (' + self.requested_user['id'] + ')'
-            self.total_images = 0
+            self.total_images = 0       #reset count
             self.main()
+        else:
+            print('Your token is not valid. Please check and re-enter your token.')
 
     def check_token(self):
         token_request_url = 'https://graph.facebook.com/me?fields=id&access_token=' + self.token
@@ -36,6 +44,12 @@ class FFBD:
 
     def remove_user_id_folder_if_exists_and_create_new_one(self):
         current_dir = os.getcwd()
+        # check /Download path
+        download_path = os.path.join(current_dir, self.download_folder)
+        download_path_exists = os.path.isdir(download_path)
+        if not download_path_exists:
+            os.mkdir(download_path)
+        # check user's folder path
         user_folder_path = os.path.join(current_dir, self.download_folder, self.requested_user_folder)
         user_folder_exists = os.path.isdir(user_folder_path)
         if user_folder_exists:
